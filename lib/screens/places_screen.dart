@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
 import '../blocs/place_bloc.dart';
 import '../models/place_model.dart';
 import 'products_screen.dart';
 import '../services/storage_service.dart';
 import 'auth/login_screen.dart';
+import 'search_screen.dart';
 
 class PlacesScreen extends StatefulWidget {
   const PlacesScreen({super.key});
@@ -32,9 +32,7 @@ class _PlacesScreenState extends State<PlacesScreen> {
 
   Future<void> logout() async {
     await _storage.deleteToken();
-
     if (!mounted) return;
-
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (_) => const LoginScreen()),
@@ -60,19 +58,15 @@ class _PlacesScreenState extends State<PlacesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF5F5F5),
-
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.orange.shade700,
-        centerTitle: true,
-
-        title: const Row(
-          mainAxisSize: MainAxisSize.min,
+        automaticallyImplyLeading: false,
+        title: Row(
           children: [
-            Icon(Icons.location_city,
-                color: Colors.white, size: 28),
-            SizedBox(width: 10),
-            Text(
+            const Icon(Icons.location_city, color: Colors.white, size: 28),
+            const SizedBox(width: 10),
+            const Text(
               "Places",
               style: TextStyle(
                 color: Colors.white,
@@ -81,35 +75,42 @@ class _PlacesScreenState extends State<PlacesScreen> {
                 letterSpacing: 1,
               ),
             ),
-          ],
-        ),
-
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: InkWell(
-              onTap: logout,
-              child: const Row(
-                children: [
-                  Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    "Logout",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
+            const Spacer(),
+            TextButton.icon(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => SearchScreen()),
+              ),
+              icon: const Icon(Icons.search, color: Colors.white, size: 20),
+              label: const Text(
+                "Search by product",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w600),
               ),
             ),
-          ),
-        ],
-      ),
 
+            const SizedBox(width: 8),
+            InkWell(
+              onTap: logout,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  children: [
+                    Icon(Icons.logout, color: Colors.white),
+                    SizedBox(width: 5),
+                    Text(
+                      "Logout",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        actions: const [],
+      ),
       body: StreamBuilder<List<Place>>(
         stream: bloc.stream,
         builder: (context, snapshot) {
@@ -118,7 +119,6 @@ class _PlacesScreenState extends State<PlacesScreen> {
               child: Text("Error loading data"),
             );
           }
-
           if (!snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -132,7 +132,6 @@ class _PlacesScreenState extends State<PlacesScreen> {
             itemCount: places.length,
             itemBuilder: (context, index) {
               final p = places[index];
-
               return Container(
                 margin: const EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
@@ -149,7 +148,6 @@ class _PlacesScreenState extends State<PlacesScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     ClipRRect(
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(22),
@@ -161,13 +159,11 @@ class _PlacesScreenState extends State<PlacesScreen> {
                         fit: BoxFit.cover,
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
                           Row(
                             mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
@@ -181,7 +177,6 @@ class _PlacesScreenState extends State<PlacesScreen> {
                                   ),
                                 ),
                               ),
-
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 6),
@@ -211,9 +206,7 @@ class _PlacesScreenState extends State<PlacesScreen> {
                               ),
                             ],
                           ),
-
                           const SizedBox(height: 14),
-
                           Row(
                             children: [
                               const Icon(Icons.location_on,
@@ -230,9 +223,7 @@ class _PlacesScreenState extends State<PlacesScreen> {
                               ),
                             ],
                           ),
-
                           const SizedBox(height: 20),
-
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
@@ -265,7 +256,6 @@ class _PlacesScreenState extends State<PlacesScreen> {
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),
