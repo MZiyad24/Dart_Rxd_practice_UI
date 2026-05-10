@@ -5,7 +5,6 @@ import '../services/auth_service.dart';
 class AuthBloc {
   final AuthService _service = AuthService();
 
-  // 🔹 Inputs
   final _name = BehaviorSubject<String>();
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
@@ -13,7 +12,6 @@ class AuthBloc {
   final _gender = BehaviorSubject<String?>(); // optional
   final _level = BehaviorSubject<int?>();     // optional
 
-  // 🔹 Setters
   void setName(String v) => _name.add(v);
   void setEmail(String v) => _email.add(v);
   void setPassword(String v) => _password.add(v);
@@ -21,7 +19,6 @@ class AuthBloc {
   void setGender(String? v) => _gender.add(v);
   void setLevel(int? v) => _level.add(v);
 
-  // 🔹 Validation Streams (optional but better)
   Stream<bool> get nameValid =>
       _name.stream.map((n) => n.isNotEmpty);
 
