@@ -215,14 +215,18 @@ class _SignupScreenState extends State<SignupScreen> {
 
                                 if (!mounted) return;
 
-                                if (res) {
-                                  Navigator.pushNamed(context, "/login");
-                                } else {
+                                if(res != "success") {
+                                  print("the response is: ${res}");
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Signup Failed"),
+                                    SnackBar(
+                                      content: Text("Signup Failed: ${res}"),
                                     ),
                                   );
+                                  return;
+                                }
+
+                                else {
+                                  Navigator.pushNamed(context, "/login");
                                 }
                               }
                             : null,

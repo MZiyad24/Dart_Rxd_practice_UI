@@ -40,7 +40,7 @@ class AuthBloc {
         (n, e, p, c) => n && e && p && c,
       );
 
-  Future signup() async {
+  Future<String> signup() async {
     final user = User(
       name: _name.value,
       email: _email.value,

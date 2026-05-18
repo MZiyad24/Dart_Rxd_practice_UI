@@ -8,7 +8,7 @@ class AuthService {
   final StorageService _storageService = StorageService();
   final ApiService api = ApiService();
 
-  Future<bool> signup(User user) async {
+  Future<String> signup(User user) async {
     try {
       final response = await api.post('/auth/signup',  
         {
@@ -26,10 +26,11 @@ class AuthService {
         if(token != null) {
           await _storageService.saveToken(token);
         }
-        return true;
+        return "success";
       } else {
         final errorData = jsonDecode(response.body);
-        throw Exception(errorData['message'] ?? "Signup failed");
+        print("in auth service");
+        return(errorData['message'] ?? "Signup failed");
       }
     } catch (e) {
       throw Exception(e.toString());
